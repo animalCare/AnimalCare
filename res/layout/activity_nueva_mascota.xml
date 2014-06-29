@@ -162,7 +162,7 @@
         android:baselineAlignBottom="false"
         android:maxHeight="170dp"
         android:maxWidth="170dp"
-        android:src="@drawable/foto_default" />
+        android:src="@drawable/foto_default2" />
 
     <Button
         android:id="@+id/guardar"

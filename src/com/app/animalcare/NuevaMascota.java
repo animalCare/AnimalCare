@@ -1,4 +1,5 @@
 package com.app.animalcare;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -41,7 +42,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class NuevaMascota extends Activity {
 
 	private TextView Output;
-
+	private int estadoFoto=0; // foto por defecto
 	private int year;
 	private int month;
 	private int day;
@@ -151,12 +152,18 @@ public class NuevaMascota extends Activity {
 			  TextView nombre = (TextView) findViewById(R.id.txtNombre);
 			  TextView apodo = (TextView) findViewById(R.id.txtApodo);
 			  TextView nac = (TextView) findViewById(R.id.txtNacimiento);
+			  String rutaImg = fileRuta;
+			  if (estadoFoto==0)
+			  {
+				  rutaImg = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + 
+						  "/animalCare/foto_default.jpg";
+			  }
 			  
 			  db.addContact(new Mascotas(propietario.getText().toString(),
 					  		nombre.getText().toString(), apodo.getText().toString(),
 					  		genero.getSelectedItem().toString(), nac.getText().toString(),
 					  		especies.getSelectedItem().toString(),
-					  		raza.getSelectedItem().toString(),fileRuta));
+					  		raza.getSelectedItem().toString(),rutaImg));
 			 
 			 
 		  }
@@ -198,13 +205,13 @@ public class NuevaMascota extends Activity {
 		 // creando directorio sino existe
 		 file.mkdirs();
 		 //copiando img default
-		 Bitmap bm = BitmapFactory.decodeResource( getResources(), R.drawable.foto_default);
+		 Bitmap bm = BitmapFactory.decodeResource( getResources(), R.drawable.foto_default2);
 		 String extStorageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/animalCare/";
-		 File file = new File(extStorageDirectory, "foto_default.PNG");
+		 File file = new File(extStorageDirectory, "foto_default.jpg");
 		 FileOutputStream outStream;
 		try {
 			outStream = new FileOutputStream(file);
-			bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+			bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
 			 try {
 				outStream.flush();
 				outStream.close();
@@ -251,6 +258,7 @@ public class NuevaMascota extends Activity {
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 ImageView myImage = (ImageView) findViewById(R.id.imageViewFoto);
                 myImage.setImageBitmap(myBitmap);
+                estadoFoto = 1; // se cambio foto por defecto
             }
 	 	}
 	
